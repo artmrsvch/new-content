@@ -1,5 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
+import {auth} from '../../models/actions'
+
+import { Link, RouteComponentProps  } from "react-router-dom";
 import { Form, Field } from "react-final-form";
 import { validate } from "./validate";
 import { InputBlock } from "./InputBlock";
@@ -8,12 +12,22 @@ interface SubmitFileds {
     login: string;
     password: string;
 }
+interface ChildComponentProps extends RouteComponentProps<any> {
+    /* other props for ChildComponent */
+}
 
-const Auth: React.FC = () => {
+const Auth: React.FC<ChildComponentProps> = ({history}) => {
+    const dispatch = useDispatch()
+
     const submit = (fields: SubmitFileds) => {
         const formData = new FormData();
         formData.append("login", fields.login);
         formData.append("password", fields.password);
+        formData.append("kapcha", "");
+        formData.append("loginbutton", "Войти");
+        
+        history.push("/workspace");
+        dispatch(auth())
     };
     return (
         <section className="section section-auth">

@@ -1,5 +1,11 @@
-@import "./setting/vars.scss";
-@import "./setting/media.scss";
-@import "./setting/mixin.scss";
-@import "./setting/layout.scss";
-@import "../components/Auth/auth.scss";
+@import './setting/vars.scss';
+@import './setting/media.scss';
+@import './setting/mixin.scss';
+@import './setting/layout.scss';
+
+//components
+@import '../components/Header/header.scss';
+
+//pages
+@import '../pages/Auth/auth.scss';
+@import '../pages/Workspace/workspace.scss';
