@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
+import { KebabButton, Checkbox } from '../../components';
 
 const ProductTable: React.FC = () => {
   interface ProductType {
@@ -12,6 +13,24 @@ const ProductTable: React.FC = () => {
     date: string;
   }
 
+  const copyToBuffer = (target: HTMLElement): void => {
+    let range = new Range();
+    range.selectNodeContents(target);
+    document.getSelection()!.removeAllRanges();
+    document.getSelection()!.addRange(range);
+
+    document.execCommand('copy');
+  };
+  const clickHeandler = (e: SyntheticEvent) => {
+    let target = e.target as any;
+    const dataType: string | undefined = target.dataset.type;
+    if (dataType === 'name' || dataType === 'category' || dataType === 'sku') {
+      copyToBuffer(target);
+    } else if (dataType === 'url') {
+      e.preventDefault();
+      window.open(target.href, '_blank');
+    }
+  };
   const products: ProductType[] = [
     {
       category: 'Стеллажи | Стеллажи',
@@ -45,7 +64,7 @@ const ProductTable: React.FC = () => {
     },
   ];
   return (
-    <table>
+    <table onClick={clickHeandler}>
       <tbody className="product-list">
         <tr className="descript-bar">
           <th></th>
@@ -55,29 +74,32 @@ const ProductTable: React.FC = () => {
           <th>Гарантия</th>
           <th>Источник</th>
           <th>Комментарий</th>
-          <th>Дата выдачи</th>
+          <th></th>
         </tr>
         {products.map((product, index) => (
-          <tr key={index} className="product">
+          <tr key={index} className="product" data-date={product.date} data-price={product.price}>
             <td>
-              <div className="checkbox">
-                <label className="checkbox-label">
-                  <input type="checkbox" name="checkBtn" className="form-checkbox" />
-                  <span className="checkbox-style"></span>
-                </label>
-              </div>
+              <Checkbox />
             </td>
-            <td>{product.category}</td>
-            <td className="product__name">{product.name}</td>
-            <td>{product.sku}</td>
-            <td>{product.warranty}</td>
+            <td data-type="category" className="product-item product-item__category">
+              {product.category}
+            </td>
+            <td data-type="name" className="product-item product-item__name">
+              {product.name}
+            </td>
+            <td data-type="sku" className="product-item product-item__sku">
+              {product.sku}
+            </td>
+            <td data-type="warranty">{product.warranty}</td>
             <td>
-              <a href={product.url} className="product-link">
+              <a data-type="url" href={product.url} className="product-link">
                 Ссылка
               </a>
             </td>
-            <td>{product.comment}</td>
-            <td>{product.date}</td>
+            <td data-type="comment">{product.comment}</td>
+            <td>
+              <KebabButton />
+            </td>
           </tr>
         ))}
       </tbody>

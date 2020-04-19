@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
-import Select from '../../components/Header/Select';
+import {Select} from '../../components';
 import ProductTable from './ProductTable';
 
 const Workspace: React.FC = () => {

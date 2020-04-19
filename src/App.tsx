@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Route, Redirect, Switch } from "react-router-dom";
 
 import Auth from "./pages/Auth/Auth";
-import Header from "./components/Header/Header";
+import {Header} from "./components";
 import Workspace from "./pages/Workspace/Workspace";
 
 interface RootState {
