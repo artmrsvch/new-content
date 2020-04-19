@@ -31,12 +31,6 @@
   font-weight: 700;
   color: $yellow;
   font-size: 1.2em;
-  &_red {
-    color: red;
-  }
-  &_green {
-    color: $green;
-  }
 }
 // --END EXPLAN COMPONENT
 
@@ -48,7 +42,23 @@
   border-bottom: 5px solid $background;
 }
 .board {
-  height: calc(100% - 60px);
+  height: calc(100% - 160px);
+  overflow-y: auto;
+  &::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: $liColor;
+  }
+  &::-webkit-scrollbar {
+    width: 6px;
+    border-radius: 10px;
+    background-color: $liColor;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: $yellow;
+  }
 }
 .product-list {
   width: 100%;
@@ -71,7 +81,6 @@ table {
   width: 100%;
   background-color: lavender;
   border-radius: 10px;
-  overflow: hidden;
 }
 
 td {
@@ -84,5 +93,75 @@ td {
     max-width: 300px;
   }
 }
-
+.product-link {
+  color: $liColor;
+  font-weight: 700;
+  text-decoration: underline;
+  &:hover {
+    color: white;
+  }
+}
 // ---END PRODUCT ITEM
+.workspace-submit {
+  @include between;
+  width: 100%;
+  height: 100px;
+}
+//BTN submit
+
+.workspace-submit__btn {
+  display: inline-block;
+  padding: 10px 15px;
+  font-size: 20px;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 0 1px rgba(255, 255, 255, 0.2), 0 -1px rgba(0, 0, 0, 0.8);
+  outline: none;
+  border: none;
+  border-radius: 100px;
+  background: $yellow
+    radial-gradient(150% 100% at 50% 5px, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0));
+  box-shadow: inset rgba(0, 0, 0, 0.6) 0 -2px 5px, inset rgba(252, 255, 255, 0.7) 0 2px 5px,
+    rgba(0, 0, 0, 0.8) 0 2px 5px -1px;
+  color: black;
+  user-select: none;
+}
+.workspace-submit__btn:hover {
+  color: $background(0, 59, 66);
+  cursor: pointer;
+}
+.workspace-submit__btn:active {
+  box-shadow: inset rgba(0, 0, 0, 1) 0 1px 3px, inset rgba(0, 0, 0, 0.6) 0 -2px 5px,
+    inset rgba(252, 255, 255, 0.7) 0 2px 5px, 0 1px rgba(255, 255, 255, 0.08);
+  color: $liColor;
+}
+// --END BTN submit
+.workspace-comment {
+  display: flex;
+  height: 50%;
+  flex: 0.3;
+}
+.workspace-comment__area {
+  flex: 1;
+  resize: none;
+  background-color: $liBackground;
+  color: $liColor;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 0 10px;
+  &::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: $liColor;
+  }
+  &::-webkit-scrollbar {
+    width: 6px;
+    border-radius: 10px;
+    background-color: $liColor;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: $yellow;
+  }
+}

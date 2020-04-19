@@ -1,11 +1,15 @@
 import React from "react";
 
-const Select: React.FC = () => {
+type OptionsType = {
+  options: string[]
+}
+
+const Select: React.FC<OptionsType> = ({options}) => {
     return (
       <select className="select" name="status">
-        <option value="1">Выполняется</option>
-        <option value="2">Добавлено</option>
-        <option value="3">Не добавлено</option>
+        {options.map((option, index)=>(
+          <option key={index} value={option}>{option}</option>
+        ))}
       </select>
     );
 };

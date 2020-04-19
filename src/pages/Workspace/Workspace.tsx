@@ -1,7 +1,7 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import {Select} from '../../components';
+import { Select } from '../../components';
 import ProductTable from './ProductTable';
 
 const Workspace: React.FC = () => {
@@ -9,7 +9,7 @@ const Workspace: React.FC = () => {
     <section className="section section-workspace">
       <div className="container workspace-container">
         <div className="explanatory">
-          <Select />
+          <Select options={['Выполняется', 'Добавлено', 'Не добавлено']} />
           <ul className="work-info">
             <li className="work-info__item">
               <span className="work-info__descript">Отображено:</span>
@@ -25,9 +25,7 @@ const Workspace: React.FC = () => {
             </li>
           </ul>
         </div>
-        <div className="board">
-          <ProductTable />
-        </div>
+        <ProductTable />
       </div>
     </section>
   );
