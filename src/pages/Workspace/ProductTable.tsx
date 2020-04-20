@@ -1,10 +1,15 @@
 import React, { SyntheticEvent, useState } from 'react';
 import { KebabButton, Checkbox, Select } from '../../components';
+import Modal from './Modal';
 
 const ProductTable: React.FC = () => {
   const [state, setState] = useState<SelectProductType[]>([]);
+  const [showMoreInfoOfProduct, setShowMoreInfoOfProduct] = useState<IModalWithProduct>({
+    product: null,
+    isModalOpen: false,
+  });
 
-  const changeProduct = (e: SyntheticEvent) => {
+  const changeProduct = (e: SyntheticEvent): void => {
     const target = e.target as HTMLInputElement;
     const isChecked = target.checked;
 
@@ -34,7 +39,7 @@ const ProductTable: React.FC = () => {
     document.execCommand('copy');
   };
 
-  const clickHeandler = (e: SyntheticEvent) => {
+  const clickHeandler = (e: SyntheticEvent): void => {
     let target = e.target as any;
     const dataType: string | undefined = target.dataset.type;
     if (dataType === 'name' || dataType === 'category' || dataType === 'sku') {
@@ -42,9 +47,53 @@ const ProductTable: React.FC = () => {
     } else if (dataType === 'url') {
       e.preventDefault();
       window.open(target.href, '_blank');
+    } else if (dataType === 'open') {
+      openModalWithProduct(target);
     }
   };
+  const searhParent = (target: any): HTMLElement => {
+    return target.classList.contains('product') ? target : searhParent(target.parentNode);
+  };
+  const openModalWithProduct = (target: HTMLElement) => {
+    const productCard: HTMLElement = searhParent(target);
+    const product: IProductForModal[] = [
+      {
+        type: 'category',
+        name: 'Категория | Набор атрибутов',
+        value: productCard.children[1].textContent!,
+      },
+      {
+        type: 'name',
+        name: 'Название',
+        value: productCard.children[2].textContent!,
+      },
+      {
+        type: 'sku',
+        name: 'Код товара(СКЮ)',
+        value: productCard.children[3].textContent!,
+      },
+      {
+        type: 'comment',
+        name: 'Комментарий',
+        value: productCard.children[6].textContent!,
+      },
+      {
+        type: 'date',
+        name: 'Дата выдачи',
+        value: productCard.dataset.date!,
+      },
+      {
+        type: 'price',
+        name: 'Стоимость',
+        value: productCard.dataset.price!,
+      },
+    ];
 
+    setShowMoreInfoOfProduct({
+      product,
+      isModalOpen: true,
+    });
+  };
   const products: ProductType[] = [
     {
       category: 'Стеллажи | Стеллажи',
@@ -278,28 +327,44 @@ const ProductTable: React.FC = () => {
       <form className="workspace-submit">
         <Select options={['Добавлено', 'Не добавлено']} />
         <div className="workspace-comment">
-          <textarea className="workspace-comment__area" name="user-comment"></textarea>
+          <div className="workspace-comment__title">Добавить комментарий</div>
+          <textarea
+            placeholder="Введите комментарий"
+            className="workspace-comment__area"
+            name="user-comment"></textarea>
         </div>
         <button className="workspace-submit__btn" type="submit">
           Сохранить
         </button>
       </form>
+      {showMoreInfoOfProduct.isModalOpen && (
+        <Modal product={showMoreInfoOfProduct.product} closeModal={setShowMoreInfoOfProduct} />
+      )}
     </>
   );
 };
-interface ProductType {
+export interface ProductType {
   category: string;
   price: string;
   name: string;
   sku: string;
-  warranty: string;
-  url: string;
+  warranty?: string;
+  url?: string;
   comment: string;
   date: string;
 }
-interface SelectProductType {
+export interface IProductForModal {
+  type: string;
+  name: string;
+  value: string;
+}
+export interface SelectProductType {
   name: string | null;
   sku: string | null;
+}
+export interface IModalWithProduct {
+  product: IProductForModal[] | null;
+  isModalOpen: boolean;
 }
 
 export default ProductTable;

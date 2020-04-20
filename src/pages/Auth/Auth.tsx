@@ -22,9 +22,7 @@ const Auth: React.FC<ChildComponentProps> = ({history}) => {
     const submit = (fields: SubmitFileds) => {
         const formData = new FormData();
         formData.append("login", fields.login);
-        formData.append("password", fields.password);
-        formData.append("kapcha", "");
-        formData.append("loginbutton", "Войти");
+        formData.append("password", fields.password);;
         
         history.push("/workspace");
         dispatch(auth())

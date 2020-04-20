@@ -1,10 +1,10 @@
-interface Validate {
+interface IAuthValidate {
     login?: string;
     password?: string;
 }
 
-export const validate = (values: Validate) => {
-    const errors: Validate = {};
+export const validate = (values: IAuthValidate): IAuthValidate => {
+    const errors: IAuthValidate = {};
     if (!values.login) errors.login = "Введите логин";
     if (!values.password) errors.password = "Введите пароль";
     if (values.login && values.login.length < 4) {
