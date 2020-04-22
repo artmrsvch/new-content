@@ -16,6 +16,9 @@ code {
 .section {
   width: 100vw;
   height: 100vh;
+  &_withHeader {
+    height: calc(100vh - 60px);
+  }
 }
 .container {
   box-sizing: border-box;

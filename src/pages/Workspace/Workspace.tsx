@@ -5,7 +5,7 @@ import ProductTable from './ProductTable';
 
 const Workspace: React.FC = () => {
   return (
-    <section className="section section-workspace">
+    <section className="section section_withHeader section-workspace">
       <div className="container workspace-container">
         <div className="explanatory">
           <Select options={['Выполняется', 'Добавлено', 'Не добавлено']} />

@@ -1,10 +1,12 @@
 import React from 'react';
 
-const Checkbox: React.FC = () => {
+type MainCheckboxType ={isMain?: boolean | undefined}
+
+const Checkbox: React.FC<MainCheckboxType> = ({isMain}) => {
   return (
     <div className="checkbox">
       <label className="checkbox-label">
-        <input type="checkbox" name="checkBtn" className="form-checkbox" />
+        <input data-role={isMain ? 'main' : 'secondary'} type="checkbox" name="checkBtn" className="form-checkbox" />
         <span className="checkbox-style"></span>
       </label>
     </div>

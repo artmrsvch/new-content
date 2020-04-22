@@ -1,0 +1,38 @@
+.section-profile {
+  box-sizing: border-box;
+  padding: 20px;
+  // @include center;
+}
+.profile {
+  background-color: $liBackground;
+  width: 400px;
+  height: 300px;
+  border-radius: 15px;
+  box-sizing: border-box;
+  padding: 20px 10px;
+  @include col-between;
+  color: $liColor;
+  font-size: 20px;
+}
+.profile__name {
+  font-size: 25px;
+}
+.profile-state {
+  @include col-center;
+
+  &__products {
+    margin-bottom: 10px;
+  }
+  &__errors {
+    margin-bottom: 10px;
+  }
+}
+.loadable-value {
+  color: $yellow;
+  &__red {
+    color: red;
+  }
+  &__green {
+    color: $green;
+  }
+}

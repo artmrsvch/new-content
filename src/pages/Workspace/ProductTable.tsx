@@ -2,6 +2,8 @@ import React, { SyntheticEvent, useState } from 'react';
 import { KebabButton, Checkbox, Select } from '../../components';
 import Modal from './Modal';
 
+import {selectAllCheckboxAndReturnProduct, copyToBuffer, searhParent, addLinkToProduct} from './helpers'
+
 const ProductTable: React.FC = () => {
   const [state, setState] = useState<SelectProductType[]>([]);
   const [showMoreInfoOfProduct, setShowMoreInfoOfProduct] = useState<IModalWithProduct>({
@@ -18,30 +20,40 @@ const ProductTable: React.FC = () => {
       name: parentElement.children[2].textContent,
       sku: parentElement.children[3].textContent,
     };
+    if (target.dataset.role === 'main') {
+      const globalParent: Node & ParentNode = parentElement.parentNode!
+      const checkedProducts: SelectProductType[] = selectAllCheckboxAndReturnProduct(globalParent, isChecked)
 
-    if (isChecked) {
-      setState([...state, selectProduct]);
-    } else {
-      const checkedProducts = state.filter((product: SelectProductType) => {
-        return selectProduct.sku !== product.sku && selectProduct.name !== product.name;
-      });
-      setState(checkedProducts);
+      setState(checkedProducts)
+    } else if (target.dataset.role === 'secondary') {
+      if (isChecked) {
+        setState([...state, selectProduct]);
+      } else {
+        const checkedProducts = state.filter((product: SelectProductType) => {
+          return selectProduct.sku !== product.sku && selectProduct.name !== product.name;
+        });
+        setState(checkedProducts);
+      }
     }
+    
   };
+  const submitCheckedProducts = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault( )
 
-  const copyToBuffer = (target: HTMLElement): void => {
-    let range = new Range();
+    const target = e.target as HTMLFormElement
+    const formElements = target.elements as any //as HTMLFormControlCollection
 
-    range.selectNodeContents(target);
-    document.getSelection()!.removeAllRanges();
-    document.getSelection()!.addRange(range);
-
-    document.execCommand('copy');
-  };
-
+    if (formElements.status.value === 'Добавлено') {
+      const submitProducts = addLinkToProduct(state)
+      console.log(submitProducts)
+    } else {
+      //take from state
+    }
+  }
   const clickHeandler = (e: SyntheticEvent): void => {
     let target = e.target as any;
     const dataType: string | undefined = target.dataset.type;
+
     if (dataType === 'name' || dataType === 'category' || dataType === 'sku') {
       copyToBuffer(target);
     } else if (dataType === 'url') {
@@ -51,9 +63,7 @@ const ProductTable: React.FC = () => {
       openModalWithProduct(target);
     }
   };
-  const searhParent = (target: any): HTMLElement => {
-    return target.classList.contains('product') ? target : searhParent(target.parentNode);
-  };
+  
   const openModalWithProduct = (target: HTMLElement) => {
     const productCard: HTMLElement = searhParent(target);
     const product: IProductForModal[] = [
@@ -282,7 +292,7 @@ const ProductTable: React.FC = () => {
         <table onClick={clickHeandler}>
           <tbody onChange={changeProduct} className="product-list">
             <tr className="descript-bar">
-              <th></th>
+              <th><Checkbox isMain={true}/></th>
               <th>Категория | Набор атрибутов</th>
               <th>Название</th>
               <th>Код товара(СКЮ)</th>
@@ -324,14 +334,14 @@ const ProductTable: React.FC = () => {
           </tbody>
         </table>
       </div>
-      <form className="workspace-submit">
+      <form onSubmit={submitCheckedProducts} className="workspace-submit">
         <Select options={['Добавлено', 'Не добавлено']} />
         <div className="workspace-comment">
           <div className="workspace-comment__title">Добавить комментарий</div>
           <textarea
             placeholder="Введите комментарий"
             className="workspace-comment__area"
-            name="user-comment"></textarea>
+            name="userComment"></textarea>
         </div>
         <button className="workspace-submit__btn" type="submit">
           Сохранить
