@@ -1,8 +1,15 @@
 import React, { SyntheticEvent, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { showAsideBar } from '../../models/actions';
+
 import { KebabButton, Checkbox, Select } from '../../components';
 import Modal from './Modal';
-
-import {selectAllCheckboxAndReturnProduct, copyToBuffer, searhParent, addLinkToProduct} from './helpers'
+import {
+  selectAllCheckboxAndReturnProduct,
+  copyToBuffer,
+  searhParent,
+  addLinkToProduct,
+} from './helpers';
 
 const ProductTable: React.FC = () => {
   const [state, setState] = useState<SelectProductType[]>([]);
@@ -10,8 +17,11 @@ const ProductTable: React.FC = () => {
     product: null,
     isModalOpen: false,
   });
+  const dispatch = useDispatch();
 
-  const changeProduct = (e: SyntheticEvent): void => {
+  const changeProduct = (e: React.ChangeEvent<EventTarget>): void => {
+    e.stopPropagation();
+
     const target = e.target as HTMLInputElement;
     const isChecked = target.checked;
 
@@ -21,10 +31,13 @@ const ProductTable: React.FC = () => {
       sku: parentElement.children[3].textContent,
     };
     if (target.dataset.role === 'main') {
-      const globalParent: Node & ParentNode = parentElement.parentNode!
-      const checkedProducts: SelectProductType[] = selectAllCheckboxAndReturnProduct(globalParent, isChecked)
+      const globalParent: Node & ParentNode = parentElement.parentNode!;
+      const checkedProducts: SelectProductType[] = selectAllCheckboxAndReturnProduct(
+        globalParent,
+        isChecked
+      );
 
-      setState(checkedProducts)
+      setState(checkedProducts);
     } else if (target.dataset.role === 'secondary') {
       if (isChecked) {
         setState([...state, selectProduct]);
@@ -34,22 +47,48 @@ const ProductTable: React.FC = () => {
         });
         setState(checkedProducts);
       }
+    } else if (target.tagName === 'SELECT' && target.value === 'Выполняется') {
+      console.log(target.value);
     }
-    
   };
   const submitCheckedProducts = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault( )
+    e.preventDefault();
 
-    const target = e.target as HTMLFormElement
-    const formElements = target.elements as any //as HTMLFormControlCollection
+    const target = e.target as HTMLFormElement;
+    const formElements = target.elements as any; //as HTMLFormControlCollection
 
     if (formElements.status.value === 'Добавлено') {
-      const submitProducts = addLinkToProduct(state)
-      console.log(submitProducts)
+      const submitProducts = addLinkToProduct(state);
+      console.log(submitProducts);
+      dispatch(
+        showAsideBar({
+          status: true,
+          isError: false,
+          message: 'Отмечены как ВЫПОЛНЕНЫ',
+        })
+      );
     } else {
-      //take from state
+      const comment = formElements.userComment.value.trim();
+
+      if (!comment.length) {
+        dispatch(
+          showAsideBar({
+            status: true,
+            isError: true,
+            message: 'Комментарий обязателен',
+          })
+        );
+      } else {
+        dispatch(
+          showAsideBar({
+            status: true,
+            isError: false,
+            message: 'Отмечены как НЕ выполнены',
+          })
+        );
+      }
     }
-  }
+  };
   const clickHeandler = (e: SyntheticEvent): void => {
     let target = e.target as any;
     const dataType: string | undefined = target.dataset.type;
@@ -63,7 +102,7 @@ const ProductTable: React.FC = () => {
       openModalWithProduct(target);
     }
   };
-  
+
   const openModalWithProduct = (target: HTMLElement) => {
     const productCard: HTMLElement = searhParent(target);
     const product: IProductForModal[] = [
@@ -292,7 +331,9 @@ const ProductTable: React.FC = () => {
         <table onClick={clickHeandler}>
           <tbody onChange={changeProduct} className="product-list">
             <tr className="descript-bar">
-              <th><Checkbox isMain={true}/></th>
+              <th>
+                <Checkbox isMain={true} />
+              </th>
               <th>Категория | Набор атрибутов</th>
               <th>Название</th>
               <th>Код товара(СКЮ)</th>
@@ -375,6 +416,11 @@ export interface SelectProductType {
 export interface IModalWithProduct {
   product: IProductForModal[] | null;
   isModalOpen: boolean;
+}
+export interface IAsideType {
+  isOpen: boolean;
+  isError: boolean;
+  message: string;
 }
 
 export default ProductTable;
