@@ -68,17 +68,45 @@
   // border: 1px solid royalblue;
   &__item {
     @include between;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
     color: $liColor;
     &:last-child {
       margin-bottom: 0;
     }
-    font-size: 17px;
+    font-size: 18px;
   }
 }
 .profile-work-links__href {
   text-decoration: underline;
   color: $yellow;
 }
-.profile-work-offical {
+.products-inWork {
+  color: $liColor;
+  font-size: 18px;
+  font-weight: bold;
+  &__int {
+    color: $yellow;
+  }
+}
+.profile-getProducts__title {
+  font-size: 18px;
+  color: $liColor;
+  font-weight: bold;
+  margin: 10px 0;
+}
+.profile-getProducts {
+  @include col-between;
+  justify-content: flex-start;
+  height: 100%;
+  width: 35%;
+}
+.profile-getProducts__input {
+  background-color: $liColor;
+  border-radius: 8px;
+  box-sizing: border-box;
+  padding: 0 5px;
+  width: 20%;
+}
+.profile-getProducts__btn {
+  margin-top: 10px;
 }
