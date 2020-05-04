@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { IUserInfo, UserInfo } from './RoleUser/UserInfo';
-import UserStatistic from './RoleUser/UserStatistic';
+import { IUserInfo} from './RoleUser/UserInfo';
+import {RoleUser} from './RoleUser/RoleUser';
 
 const Profile: React.FC = () => {
   const userInfo: IUserInfo = {
@@ -21,8 +21,7 @@ const Profile: React.FC = () => {
   return (
     <section className="section section_withHeader section-profile">
       <div className="profile-info">
-        <UserInfo userData={userInfo} />
-        <UserStatistic />
+        <RoleUser userData={userInfo}/>
       </div>
     </section>
   );

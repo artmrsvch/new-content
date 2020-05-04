@@ -47,8 +47,6 @@ const ProductTable: React.FC = () => {
         });
         setState(checkedProducts);
       }
-    } else if (target.tagName === 'SELECT' && target.value === 'Выполняется') {
-      console.log(target.value);
     }
   };
   const submitCheckedProducts = (e: React.FormEvent<HTMLFormElement>) => {
