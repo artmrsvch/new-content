@@ -2,10 +2,10 @@ import React from 'react';
 
 import { Checkbox } from '../../../components';
 
-export const UserReadyAttr: React.FC = () => {
+export const Params: React.FC<any> = () => {
   const attrs: IAttr[] = [
     {
-      type: 'Тип',
+      type: 'Материал',
       property: 'Узкозахватный',
       category: 'Полезные товары для дома | Полезные товары для дома',
       name: 'Шарики надувные METR+ MK 3396 для моделирования 50 шт.',
@@ -13,14 +13,14 @@ export const UserReadyAttr: React.FC = () => {
       comment: 'Выбрать из существующих',
     },
     {
-      type: 'Тип',
+      type: 'Производитель',
       property: 'Узкозахватный',
       category: 'Полезные товары для дома | Полезные товары для дома',
       name: 'Шарики надувные METR+ MK 3396 для моделирования 50 шт.',
       sku: '14029-0408',
     },
     {
-      type: 'Тип',
+      type: 'Цвет',
       property: 'Узкозахватный',
       category: 'Полезные товары для дома | Полезные товары для дома',
       name: 'Шарики надувные METR+ MK 3396 для моделирования 50 шт.',
@@ -28,7 +28,7 @@ export const UserReadyAttr: React.FC = () => {
       comment: 'Выбрать из существующих',
     },
     {
-      type: 'Тип',
+      type: 'Серия',
       property: 'Узкозахватный',
       category: 'Полезные товары для дома | Полезные товары для дома',
       name: 'Шарики надувные METR+ MK 3396 для моделирования 50 шт.',
@@ -37,7 +37,7 @@ export const UserReadyAttr: React.FC = () => {
   ];
 
   return (
-    <div className='user-attr'>
+    <div className='board'>
       <table>
         <tbody className='product-list'>
           <tr className='descript-bar'>
@@ -46,8 +46,6 @@ export const UserReadyAttr: React.FC = () => {
             </th>
             <th>Тип</th>
             <th>Значение</th>
-            <th>Категория | Набор атрибутов</th>
-            <th>Название</th>
             <th>Код товара(СКЮ)</th>
             <th>Комментарий</th>
           </tr>
@@ -56,15 +54,9 @@ export const UserReadyAttr: React.FC = () => {
               <td>
                 <Checkbox />
               </td>
-              <td data-type='warranty'>{attr.type}</td>
+              <td data-type='type'>{attr.type}</td>
 
-              <td data-type='comment'>{attr.property}</td>
-              <td data-type='category' className='product-item product-item__category'>
-                {attr.category}
-              </td>
-              <td data-type='name' className='product-item product-item__name'>
-                {attr.name}
-              </td>
+              <td data-type='property'>{attr.property}</td>
               <td data-type='sku' className='product-item product-item__sku'>
                 {attr.sku}
               </td>

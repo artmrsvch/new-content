@@ -5,15 +5,15 @@ import {RoleUser} from './RoleUser/RoleUser';
 
 const Profile: React.FC = () => {
   const userInfo: IUserInfo = {
-    name: 'Артем Забиров',
+    name: 'Иванов Иван',
     date: '22.04.2020',
     products: '653',
     withError: 78,
     withEdits: '87',
     payment: {
-      name: 'Аленбергер Максим Виталиевич',
+      name: 'Иванов Иван Иванович',
       type: 'Приват24',
-      requisites: '4149 4991 2785 8700',
+      requisites: '4149 7878 7878 7878',
     },
     toPay: 3475,
   };
